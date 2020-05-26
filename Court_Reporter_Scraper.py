@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[527]:
-
-
 import urllib
 import urllib3
 from selenium import webdriver
@@ -14,19 +11,11 @@ import re
 import pandas as pd
 import unicodedata
 
-
-# In[528]:
-
-
 DRIVER_PATH = './chromedriver.exe'
 wd = webdriver.Chrome(executable_path=DRIVER_PATH)
 time.sleep(5)
 wd.get('https://portal.ncra.org/Sourcebook')
 time.sleep(5)
-
-
-# In[510]:
-
 
 def clickButton():
     wd.find_element_by_xpath("//input[@class='rcbInput radPreventDecorate']").click()
@@ -103,27 +92,10 @@ def mainFunction():
         time.sleep(3)
         x+=1
 
-
-# In[473]:
-
-
 emailArray = []
 nameArray = []
 stateArray = []
 mainFunction()
-
-
-# In[48]:
-
-
-newTesty = pd.DataFrame({'Email':emailArray})
-newTesty["ID"] = range(0, len(newTesty))
-newTesty = newTesty.set_index('ID')
-newTesty
-
-
-# In[520]:
-
 
 nameDataframe = pd.DataFrame({'Name':nameArray})
 nameDataframe["ID"] = range(0, len(nameDataframe))
@@ -136,10 +108,6 @@ nameDataframe['Last_Name'] = nameDataframe['Last_Name'].str.replace(',',' ')
 nameDataframe['Last_Name'] = nameDataframe['Last_Name'].str.replace(r'[A-Z]{2,3}','')
 nameDataframe
 
-
-# In[521]:
-
-
 emailDataFrame = pd.DataFrame({'Email':emailArray})
 emailDataFrame["ID"] = range(0, len(emailDataFrame))
 emailDataFrame = emailDataFrame.set_index('ID')
@@ -147,10 +115,6 @@ emailDataFrame[['Mailto', 'Mailing_List']] = emailDataFrame['Email'].str.split('
 emailDataFrame = emailDataFrame.drop(['Email'],1)
 emailDataFrame = emailDataFrame.drop(['Mailto'],1)
 emailDataFrame
-
-
-# In[522]:
-
 
 newState = pd.DataFrame({'State':stateArray})
 newState["ID"] = range(0, len(newState))
@@ -160,17 +124,8 @@ newState = newState.drop(['Delete'],1)
 newState = newState.drop(['State'],1)
 newState
 
-
-# In[523]:
-
-
 finalDataFrame = nameDataframe.merge(newState, how="left", on="ID")
 dfToCSV = finalDataFrame.merge(emailDataFrame, how="left", on="ID")
 dfToCSV
 
-
-# In[524]:
-
-
 dfToCSV.to_csv("Court_reporters.csv", sep=',', columns=['Full_Name','Last_Name','State_Letters','Mailing_List'], encoding='utf-8')
-
