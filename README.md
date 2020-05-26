@@ -1,6 +1,6 @@
 # courtScrappy
 
-### Purpose: To scrape names, email, and state/province for database.
+### Purpose: To scrape names, email, and state/province of court reporters for database.
 ### Libraries Needed
 #### pip install selenium
 #### pip install BeautifulSoup
